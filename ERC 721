@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.9;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
+contract Faizan is ERC721, Ownable {
+    using Counters for Counters.Counter;
+
+    Counters.Counter private _tokenIdCounter;
+
+    constructor() ERC721("Faizan", "MTK") {}
+
+    uint public mini=0.01 ether ;
+    uint public attr=1;
+
+    function safeMint(address to) public  payable  {
+        require(balanceOf(msg.sender) < attr,"yio not abble be chuttya");
+        require(msg.value==mini,"Not enough money" );
+        _tokenIdCounter.increment();
+        _safeMint(to, _tokenIdCounter.current());
+    }
+
+    function widraw() public {
+        require(address(this).balance>0,"Have You");
+        payable(owner()).transfer(address(this).balance);
+    }
+}
